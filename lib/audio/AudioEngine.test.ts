@@ -83,6 +83,82 @@ test("first play resumes a suspended context before scheduling audible voices", 
     context.gains[1]?.gain.scheduledValues.some((value) => value > 0),
     "the voice gain should schedule an audible peak",
   );
+  assert.equal(context.periodicWaves.length, 1);
+  assertArrayCloseTo(
+    context.periodicWaves[0]?.imaginary ?? [],
+    [0, 1, 0.32, 0.12, 0.055, 0.025, 0.012],
+  );
+  assert.strictEqual(
+    context.oscillators[0]?.periodicWave,
+    context.periodicWaves[0],
+  );
+  assert.equal(context.filters.length, 1);
+  assert.equal(context.filters[0]?.type, "lowpass");
+  assert.deepEqual(context.filters[0]?.Q.scheduledValues, [0.65]);
+  assert.deepEqual(
+    context.filters[0]?.frequency.scheduledMethods,
+    ["set", "exponential"],
+  );
+
+  const voiceEnvelope = context.gains[1]?.gain;
+  assert.ok(voiceEnvelope);
+  const audibleValues = voiceEnvelope.scheduledValues.filter(
+    (value) => value > 0,
+  );
+  assert.equal(audibleValues.length, 3);
+  assert.ok(
+    audibleValues[1] < audibleValues[0],
+    "the voice should decay from its mallet-like attack into a softer sustain",
+  );
+  assert.equal(audibleValues[2], audibleValues[1]);
+  assert.ok(
+    voiceEnvelope.scheduledTimes.at(-1)! > 1.54,
+    "the release should ring beyond the nominal half-second note",
+  );
+
+  await engine.dispose();
+});
+
+test("the warm periodic wave is cached while each note gets its own filter", async () => {
+  const context = new FakeAudioContext();
+  const engine = new AudioEngine({
+    contextFactory: () => context as unknown as AudioContext,
+  });
+
+  await engine.play(MELODY);
+  engine.pause();
+  assert.ok(
+    (context.oscillators[0]?.stopTimes.at(-1) ?? Infinity) -
+      context.currentTime <
+      0.04,
+    "transport pause should cut the natural tail before the next scheduled note",
+  );
+  await engine.resume();
+
+  assert.equal(context.oscillators.length, 2);
+  assert.equal(context.periodicWaves.length, 1);
+  assert.equal(context.filters.length, 2);
+  assert.strictEqual(
+    context.oscillators[0]?.periodicWave,
+    context.oscillators[1]?.periodicWave,
+  );
+
+  await engine.dispose();
+});
+
+test("an explicit oscillator waveform remains supported", async () => {
+  const context = new FakeAudioContext();
+  const engine = new AudioEngine({
+    waveform: "square",
+    contextFactory: () => context as unknown as AudioContext,
+  });
+
+  await engine.play(MELODY);
+
+  assert.equal(context.periodicWaves.length, 0);
+  assert.equal(context.oscillators[0]?.periodicWave, null);
+  assert.equal(context.oscillators[0]?.type, "square");
+  assert.equal(context.filters.length, 1);
 
   await engine.dispose();
 });
@@ -176,6 +252,8 @@ class FakeAudioContext {
   destination = {} as AudioDestinationNode;
   readonly oscillators: FakeOscillatorNode[] = [];
   readonly gains: FakeGainNode[] = [];
+  readonly filters: FakeBiquadFilterNode[] = [];
+  readonly periodicWaves: FakePeriodicWave[] = [];
   resumeCalls = 0;
   resumeTargetState: AudioContextState | "interrupted" = "running";
   private resumeGate: Deferred | null = null;
@@ -191,6 +269,21 @@ class FakeAudioContext {
     const oscillator = new FakeOscillatorNode();
     this.oscillators.push(oscillator);
     return oscillator as unknown as OscillatorNode;
+  }
+
+  createBiquadFilter(): BiquadFilterNode {
+    const filter = new FakeBiquadFilterNode();
+    this.filters.push(filter);
+    return filter as unknown as BiquadFilterNode;
+  }
+
+  createPeriodicWave(
+    real: Float32Array,
+    imaginary: Float32Array,
+  ): PeriodicWave {
+    const wave = new FakePeriodicWave(real, imaginary);
+    this.periodicWaves.push(wave);
+    return wave as unknown as PeriodicWave;
   }
 
   addEventListener(type: string, listener: () => void): void {
@@ -238,16 +331,30 @@ class FakeAudioContext {
 class FakeAudioParam {
   value = 0;
   readonly scheduledValues: number[] = [];
+  readonly scheduledMethods: string[] = [];
+  readonly scheduledTimes: number[] = [];
 
-  setValueAtTime(value: number): AudioParam {
+  setValueAtTime(value: number, time = 0): AudioParam {
     this.value = value;
     this.scheduledValues.push(value);
+    this.scheduledMethods.push("set");
+    this.scheduledTimes.push(time);
     return this as unknown as AudioParam;
   }
 
-  linearRampToValueAtTime(value: number): AudioParam {
+  linearRampToValueAtTime(value: number, time = 0): AudioParam {
     this.value = value;
     this.scheduledValues.push(value);
+    this.scheduledMethods.push("linear");
+    this.scheduledTimes.push(time);
+    return this as unknown as AudioParam;
+  }
+
+  exponentialRampToValueAtTime(value: number, time = 0): AudioParam {
+    this.value = value;
+    this.scheduledValues.push(value);
+    this.scheduledMethods.push("exponential");
+    this.scheduledTimes.push(time);
     return this as unknown as AudioParam;
   }
 
@@ -271,7 +378,9 @@ class FakeGainNode {
 class FakeOscillatorNode {
   type: OscillatorType = "sine";
   readonly frequency = new FakeAudioParam();
+  periodicWave: FakePeriodicWave | null = null;
   stopCalls = 0;
+  readonly stopTimes: number[] = [];
 
   connect(): void {}
 
@@ -279,9 +388,47 @@ class FakeOscillatorNode {
 
   addEventListener(): void {}
 
+  setPeriodicWave(wave: PeriodicWave): void {
+    this.periodicWave = wave as unknown as FakePeriodicWave;
+  }
+
   start(): void {}
 
-  stop(): void {
+  stop(when = 0): void {
     this.stopCalls += 1;
+    this.stopTimes.push(when);
   }
+}
+
+class FakeBiquadFilterNode {
+  type: BiquadFilterType = "lowpass";
+  readonly frequency = new FakeAudioParam();
+  readonly Q = new FakeAudioParam();
+
+  connect(): void {}
+
+  disconnect(): void {}
+}
+
+class FakePeriodicWave {
+  readonly real: number[];
+  readonly imaginary: number[];
+
+  constructor(real: Float32Array, imaginary: Float32Array) {
+    this.real = Array.from(real);
+    this.imaginary = Array.from(imaginary);
+  }
+}
+
+function assertArrayCloseTo(
+  actual: readonly number[],
+  expected: readonly number[],
+): void {
+  assert.equal(actual.length, expected.length);
+  actual.forEach((value, index) => {
+    assert.ok(
+      Math.abs(value - expected[index]!) < 1e-6,
+      `expected harmonic ${index} to be close to ${expected[index]}`,
+    );
+  });
 }

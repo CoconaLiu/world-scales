@@ -9,6 +9,8 @@ import type {
 type Step = Readonly<{
   midi: number;
   durationBeats: number;
+  /** Portion of the rhythmic slot for which the note remains audible. */
+  gate?: number;
   velocity?: number;
 }>;
 
@@ -30,12 +32,25 @@ export function createSequentialMelody({
 }: MelodyInput): Melody {
   let cursor = 0;
   const events: NoteEvent[] = steps.map((step, index) => {
+    const isFinalStep = index === steps.length - 1;
+    const defaultGate = isFinalStep
+      ? 1
+      : step.durationBeats <= 0.5
+        ? 0.82
+        : step.durationBeats <= 1
+          ? 0.86
+          : 0.92;
+    const gate = Math.min(1, Math.max(0.1, step.gate ?? defaultGate));
+    const beatsPerBar = timeSignature[0];
+    const beatInBar = ((cursor % beatsPerBar) + beatsPerBar) % beatsPerBar;
+    const isDownbeat = Math.abs(beatInBar) < 0.001;
+    const isBackbeat = Math.abs(beatInBar - beatsPerBar / 2) < 0.001;
     const event: NoteEvent = {
       id: `${id}-${index + 1}`,
       midi: step.midi,
       startBeats: cursor,
-      durationBeats: step.durationBeats,
-      velocity: step.velocity ?? (index % 4 === 0 ? 0.82 : 0.7),
+      durationBeats: step.durationBeats * gate,
+      velocity: step.velocity ?? (isDownbeat ? 0.84 : isBackbeat ? 0.76 : 0.68),
     };
     cursor += step.durationBeats;
     return event;
@@ -187,4 +202,3 @@ export function getComparisonMelody(scaleId: ScaleId): Melody {
 export function getLocalMelody(scaleId: ScaleId): Melody {
   return LOCAL_MELODIES[scaleId];
 }
-

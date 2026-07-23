@@ -23,9 +23,9 @@ export const COPY_BY_LOCALE = {
     tour: {
       title: "环游五种音阶",
       progressLabel: "第 {current} 站，共 {total} 站",
-      localMode: "聆听本地旋律",
+      localMode: "原创音阶练习",
       comparisonMode: "同曲比较",
-      localModeDescription: "先听一段与当前音阶相关的本地旋律示例。",
+      localModeDescription: "先听一段原创合成音阶练习；它不是页面中候选曲目的编曲。",
       comparisonModeDescription: "再用相同节奏与轮廓，比较《欢乐颂》在不同音阶中的变化。",
       complete: "完成世界之旅",
     },
@@ -86,7 +86,7 @@ export const COPY_BY_LOCALE = {
       equalTemperament: "为了便于比较和琴键互动，MVP 中所有音阶均以十二平均律呈现。",
       culturalScope: "地点、颜色与抽象纹理是导航设计，不代表一个地区只有一种音阶或审美。",
       regionalTimbre: "地域灵感音色是编曲选择，并非音阶本身固有的声音。",
-      placeholderAudio: "当前音乐为合成占位素材；正式曲目、编曲与权利仍待审核。",
+      placeholderAudio: "本地模式播放原创合成音阶练习，不代表候选曲目；正式曲目、编曲与权利仍待审核。",
       noUpload: "本体验不申请麦克风权限，也不会上传你的演奏数据。",
     },
     accessibility: {
@@ -118,9 +118,9 @@ export const COPY_BY_LOCALE = {
     tour: {
       title: "Travel through five scales",
       progressLabel: "Stop {current} of {total}",
-      localMode: "Hear it at home",
+      localMode: "Original scale study",
       comparisonMode: "Compare the same melody",
-      localModeDescription: "First, hear a local melody example associated with this scale.",
+      localModeDescription: "First, hear an original synthesized scale study—not an arrangement of the candidate repertoire.",
       comparisonModeDescription: "Then compare how Ode to Joy changes while its rhythm and broad contour stay familiar.",
       complete: "Complete the world tour",
     },
@@ -181,7 +181,7 @@ export const COPY_BY_LOCALE = {
       equalTemperament: "For comparison and keyboard interaction, every MVP scale is presented in 12-tone equal temperament.",
       culturalScope: "Locations, colors, and abstract textures are navigation choices; they do not suggest that a region has only one scale or aesthetic.",
       regionalTimbre: "Region-inspired timbres are arrangement choices, not an inherent sound of the scale.",
-      placeholderAudio: "Current music is synthesized placeholder material; final repertoire, arrangements, and rights remain under review.",
+      placeholderAudio: "Local mode uses original synthesized scale studies, not the candidate songs; final repertoire, arrangements, and rights remain under review.",
       noUpload: "This experience does not request microphone access or upload your performance data.",
     },
     accessibility: {

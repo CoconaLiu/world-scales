@@ -54,16 +54,20 @@ export const DESTINATIONS = [
       },
     },
     disclaimer: {
-      zh: "这是用于入门比较的十二平均律原型；《El Helwa Di》的曲谱版本、编曲与权利仍待审核。",
-      en: "This is an introductory 12-TET prototype; the score version, arrangement, and rights for El Helwa Di remain under review.",
+      zh: "当前播放的是原创希贾兹音阶练习，不是《El Helwa Di》；后者的曲谱版本、编曲与权利仍待审核。",
+      en: "The current audio is an original Hijaz scale study, not El Helwa Di; that song's score version, arrangement, and rights remain under review.",
     },
     tracks: {
       local: {
-        assetId: "local-hijaz-el-helwa-di",
-        title: { en: "El Helwa Di", zh: "《El Helwa Di》", local: "الحلوة دي" },
-        modeLabel: { en: "Hear it at home", zh: "聆听本地旋律" },
+        assetId: "local-hijaz-scale-study",
+        title: {
+          en: "Hijaz scale study (placeholder)",
+          zh: "原创希贾兹音阶练习（占位）",
+          local: "Hijaz scale study",
+        },
+        modeLabel: { en: "Scale study", zh: "音阶练习" },
         status: "placeholder",
-        defaultTimbre: "regional",
+        defaultTimbre: "neutral",
       },
       comparison: {
         assetId: "comparison-hijaz-ode-to-joy",
@@ -122,20 +126,20 @@ export const DESTINATIONS = [
       },
     },
     disclaimer: {
-      zh: "“北大西洋”是本体验的宽泛地图分区；多利亚调式不能代表该地区全部音乐传统。曲目版本与权利仍待审核。",
-      en: "North Atlantic is a broad map label in this experience; Dorian does not represent all music traditions of the region. The repertoire version and rights remain under review.",
+      zh: "“北大西洋”是本体验的宽泛地图分区；当前播放原创多利亚音阶练习，不是《醉酒的水手》。候选曲目的版本与权利仍待审核。",
+      en: "North Atlantic is a broad map label. The current audio is an original Dorian scale study, not Drunken Sailor; the candidate repertoire version and rights remain under review.",
     },
     tracks: {
       local: {
-        assetId: "local-dorian-drunken-sailor",
+        assetId: "local-dorian-scale-study",
         title: {
-          en: "What Shall We Do with the Drunken Sailor?",
-          zh: "《醉酒的水手怎么办？》",
-          local: "What Shall We Do with the Drunken Sailor?",
+          en: "Dorian scale study (placeholder)",
+          zh: "原创多利亚音阶练习（占位）",
+          local: "Dorian scale study",
         },
-        modeLabel: { en: "Hear it at home", zh: "聆听本地旋律" },
+        modeLabel: { en: "Scale study", zh: "音阶练习" },
         status: "placeholder",
-        defaultTimbre: "regional",
+        defaultTimbre: "neutral",
       },
       comparison: {
         assetId: "comparison-dorian-ode-to-joy",
@@ -194,16 +198,20 @@ export const DESTINATIONS = [
       },
     },
     disclaimer: {
-      zh: "《茉莉花》有多个地区与曲谱版本；当前为五声音阶占位 MIDI，正式版本、调式分析、编曲与权利均待确认。",
-      en: "Molihua has multiple regional and notated versions. The current five-note MIDI is a placeholder; its final version, modal analysis, arrangement, and rights all require confirmation.",
+      zh: "当前播放的是原创宫调式音阶练习，不是《茉莉花》；候选曲目的地区版本、调式分析、编曲与权利均待确认。",
+      en: "The current audio is an original Gong-mode scale study, not Molihua; the candidate song's regional version, modal analysis, arrangement, and rights all require confirmation.",
     },
     tracks: {
       local: {
-        assetId: "local-gong-molihua",
-        title: { en: "Molihua (Jasmine Flower)", zh: "《茉莉花》", local: "茉莉花" },
-        modeLabel: { en: "Hear it at home", zh: "聆听本地旋律" },
+        assetId: "local-gong-scale-study",
+        title: {
+          en: "Gong-mode scale study (placeholder)",
+          zh: "原创宫调式音阶练习（占位）",
+          local: "原创宫调式音阶练习",
+        },
+        modeLabel: { en: "Scale study", zh: "音阶练习" },
         status: "placeholder",
-        defaultTimbre: "regional",
+        defaultTimbre: "neutral",
       },
       comparison: {
         assetId: "comparison-gong-ode-to-joy",
@@ -262,16 +270,20 @@ export const DESTINATIONS = [
       },
     },
     disclaimer: {
-      zh: "本体验使用十二平均律入门模型，不代表所有日本音阶或表演传统；《樱花》的编曲与权利仍待审核。",
-      en: "This experience uses an introductory 12-TET model and does not represent every Japanese scale or performance tradition; the Sakura arrangement and rights remain under review.",
+      zh: "当前播放的是原创都节音阶练习，不是《樱花》；本体验也不代表所有日本音阶或表演传统。候选曲目的编曲与权利仍待审核。",
+      en: "The current audio is an original Miyako-bushi scale study, not Sakura Sakura, and does not represent every Japanese scale or performance tradition. The candidate arrangement and rights remain under review.",
     },
     tracks: {
       local: {
-        assetId: "local-miyako-bushi-sakura",
-        title: { en: "Sakura Sakura", zh: "《樱花》", local: "さくらさくら" },
-        modeLabel: { en: "Hear it at home", zh: "聆听本地旋律" },
+        assetId: "local-miyako-bushi-scale-study",
+        title: {
+          en: "Miyako-bushi scale study (placeholder)",
+          zh: "原创都节音阶练习（占位）",
+          local: "都節音階の練習",
+        },
+        modeLabel: { en: "Scale study", zh: "音阶练习" },
         status: "placeholder",
-        defaultTimbre: "regional",
+        defaultTimbre: "neutral",
       },
       comparison: {
         assetId: "comparison-miyako-bushi-ode-to-joy",
@@ -330,20 +342,20 @@ export const DESTINATIONS = [
       },
     },
     disclaimer: {
-      zh: "为便于钢琴键盘互动，本体验使用十二平均律近似版本；真实 Degung 调律会因乐团与乐器而变化。曲目选择与权利尚未确认。",
-      en: "For piano-keyboard interaction, this experience uses a 12-tone equal-temperament approximation; real Degung tuning varies by ensemble and instrument. Repertoire selection and rights are not yet confirmed.",
+      zh: "当前播放的是原创十二平均律近似音阶练习，不是真实 Degung 曲目或调律；曲目选择、音乐顾问复核与权利均尚未完成。",
+      en: "The current audio is an original 12-TET approximation study, not authentic Degung repertoire or tuning; repertoire selection, specialist review, and rights remain pending.",
     },
     tracks: {
       local: {
-        assetId: "local-degung-selection-pending",
+        assetId: "local-degung-scale-study",
         title: {
-          en: "Degung melody (selection pending)",
-          zh: "Degung 旋律（曲目待定）",
-          local: "Melodi Degung (pilihan belum ditetapkan)",
+          en: "Degung approximation study (placeholder)",
+          zh: "原创 Degung 近似音阶练习（占位）",
+          local: "Studi aproksimasi Degung",
         },
-        modeLabel: { en: "Hear it at home", zh: "聆听本地旋律" },
+        modeLabel: { en: "Scale study", zh: "音阶练习" },
         status: "placeholder",
-        defaultTimbre: "regional",
+        defaultTimbre: "neutral",
       },
       comparison: {
         assetId: "comparison-degung-ode-to-joy",

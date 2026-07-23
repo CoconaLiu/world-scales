@@ -18,12 +18,11 @@ import {
 import {
   DESTINATIONS,
   formatCopy,
+  getMelodyByAssetId,
   getProductCopy,
   type Locale,
 } from "@/lib/content";
 import {
-  COMPARISON_MELODIES,
-  LOCAL_MELODIES,
   SCALES,
   quantizeRhythm,
   remapMelody,
@@ -71,7 +70,7 @@ function midiNoteName(midi: number) {
 }
 
 export function WorldScalesExperience() {
-  const [engine] = useState(() => new AudioEngine({ waveform: "triangle" }));
+  const [engine] = useState(() => new AudioEngine());
   const [phase, setPhase] = useState<Phase>("landing");
   const [locale, setLocale] = useState<Locale>("zh");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -268,10 +267,9 @@ export function WorldScalesExperience() {
     async (index: number, mode: TourMode) => {
       const nextScale = SCALES[index];
       if (!nextScale) return;
-      const melody =
-        mode === "local"
-          ? LOCAL_MELODIES[nextScale.id]
-          : COMPARISON_MELODIES[nextScale.id];
+      const nextDestination = DESTINATION_BY_SCALE_ID.get(nextScale.id);
+      if (!nextDestination) return;
+      const melody = getMelodyByAssetId(nextDestination.tracks[mode].assetId);
 
       setActiveIndex(index);
       setTourMode(mode);
@@ -887,8 +885,12 @@ export function WorldScalesExperience() {
                   {tourMode === "local" ? copy.tour.localMode : copy.tour.comparisonMode}
                   {track.status === "placeholder"
                     ? locale === "zh"
-                      ? " · 合成占位音频"
-                      : " · Synthesized placeholder"
+                      ? tourMode === "local"
+                        ? " · 柔和合成占位音色"
+                        : " · 合成占位编曲"
+                      : tourMode === "local"
+                        ? " · Soft synthesized placeholder timbre"
+                        : " · Synthesized placeholder arrangement"
                     : ""}
                 </p>
                 {scale.id === "degung" ? (

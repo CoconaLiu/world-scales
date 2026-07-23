@@ -2,7 +2,12 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { SCALES } from "../music";
-import { ASSET_MANIFEST, DESTINATIONS } from "./index";
+import {
+  ASSET_MANIFEST,
+  DESTINATIONS,
+  MUSIC_ASSET_IDS,
+  getMelodyByAssetId,
+} from "./index";
 
 describe("content joins", () => {
   it("joins every destination to one canonical music scale id", () => {
@@ -24,5 +29,41 @@ describe("content joins", () => {
         ["comparison", "local-example"],
       );
     }
+  });
+
+  it("resolves every displayed track to matching manifest and melody data", () => {
+    const registeredMelodyIds = new Set<string>();
+
+    for (const destination of DESTINATIONS) {
+      for (const mode of ["local", "comparison"] as const) {
+        const track = destination.tracks[mode];
+        const manifestEntry = ASSET_MANIFEST.assets.find(
+          (asset) => asset.id === track.assetId,
+        );
+        const melody = getMelodyByAssetId(track.assetId);
+
+        assert.ok(manifestEntry, `missing manifest entry for ${track.assetId}`);
+        assert.equal(manifestEntry.destinationId, destination.id);
+        assert.equal(manifestEntry.scaleId, destination.scaleId);
+        assert.equal(
+          manifestEntry.role,
+          mode === "local" ? "local-example" : "comparison",
+        );
+        assert.deepEqual(manifestEntry.title, track.title);
+        assert.equal(melody.scaleId, destination.scaleId);
+        assert.equal(
+          track.defaultTimbre,
+          "neutral",
+          `${track.assetId} must not imply an unimplemented regional instrument`,
+        );
+        registeredMelodyIds.add(melody.id);
+      }
+    }
+
+    assert.equal(registeredMelodyIds.size, MUSIC_ASSET_IDS.length);
+    assert.deepEqual(
+      ASSET_MANIFEST.assets.map((asset) => asset.id).sort(),
+      [...MUSIC_ASSET_IDS].sort(),
+    );
   });
 });

@@ -36,6 +36,7 @@ export interface AudioEngineSnapshot {
 export interface AudioEngineOptions {
   /** Slider-style linear value in the inclusive range 0..1. */
   volume?: number;
+  /** Overrides the default warm mallet-like harmonic timbre. */
   waveform?: OscillatorType;
   attackSeconds?: number;
   releaseSeconds?: number;

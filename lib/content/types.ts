@@ -33,15 +33,15 @@ export const SCALE_IDS = [
 export type ScaleId = (typeof SCALE_IDS)[number];
 
 export const MUSIC_ASSET_IDS = [
-  "local-hijaz-el-helwa-di",
+  "local-hijaz-scale-study",
   "comparison-hijaz-ode-to-joy",
-  "local-dorian-drunken-sailor",
+  "local-dorian-scale-study",
   "comparison-dorian-ode-to-joy",
-  "local-gong-molihua",
+  "local-gong-scale-study",
   "comparison-gong-ode-to-joy",
-  "local-miyako-bushi-sakura",
+  "local-miyako-bushi-scale-study",
   "comparison-miyako-bushi-ode-to-joy",
-  "local-degung-selection-pending",
+  "local-degung-scale-study",
   "comparison-degung-ode-to-joy",
 ] as const;
 
