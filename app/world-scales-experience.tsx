@@ -36,6 +36,7 @@ type TourMode = "local" | "comparison";
 
 const CAPTURE_BPM = 100;
 const MAX_RECORDING_SECONDS = 15;
+const DEFAULT_AUDIBLE_VOLUME = 0.72;
 const DESTINATION_BY_SCALE_ID = new Map(
   DESTINATIONS.map((item) => [item.scaleId, item] as const),
 );
@@ -78,7 +79,6 @@ export function WorldScalesExperience() {
   const [tutorialStep, setTutorialStep] = useState(0);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [muted, setMuted] = useState(false);
   const [audioError, setAudioError] = useState(false);
   const [audioSnapshot, setAudioSnapshot] = useState<AudioEngineSnapshot>(() =>
     engine.getSnapshot(),
@@ -100,6 +100,7 @@ export function WorldScalesExperience() {
   const themeColor = destination.theme.primary;
   const isPlaying = audioSnapshot.playbackState === "playing";
   const isPaused = audioSnapshot.playbackState === "paused";
+  const muted = audioSnapshot.volume <= 0;
   const activeMidi = auditionMidi ?? transportMidi;
 
   const experienceStyle = {
@@ -124,6 +125,9 @@ export function WorldScalesExperience() {
   const auditionTimerRef = useRef<number | null>(null);
   const disposeTimerRef = useRef<number | null>(null);
   const resultQueueTokenRef = useRef(0);
+  const lastAudibleVolumeRef = useRef(
+    audioSnapshot.volume > 0 ? audioSnapshot.volume : DEFAULT_AUDIBLE_VOLUME,
+  );
   const aboutButtonRef = useRef<HTMLButtonElement | null>(null);
   const aboutDialogRef = useRef<HTMLDialogElement | null>(null);
 
@@ -144,7 +148,12 @@ export function WorldScalesExperience() {
       window.clearTimeout(disposeTimerRef.current);
       disposeTimerRef.current = null;
     }
-    const unsubscribeState = engine.subscribe(setAudioSnapshot);
+    const unsubscribeState = engine.subscribe((snapshot) => {
+      setAudioSnapshot(snapshot);
+      if (snapshot.contextState === "running") {
+        setAudioError(false);
+      }
+    });
     const unsubscribeNote = engine.onActiveNoteChange((note) => {
       setTransportMidi(note?.midi ?? null);
     });
@@ -165,6 +174,12 @@ export function WorldScalesExperience() {
   useEffect(() => {
     phaseRef.current = phase;
   }, [phase]);
+
+  useEffect(() => {
+    if (audioSnapshot.volume > 0) {
+      lastAudibleVolumeRef.current = audioSnapshot.volume;
+    }
+  }, [audioSnapshot.volume]);
 
   useEffect(() => {
     document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
@@ -225,6 +240,18 @@ export function WorldScalesExperience() {
     },
     [],
   );
+
+  const restoreAudio = useCallback(async () => {
+    setAudioError(false);
+    try {
+      await engine.init();
+      if (engine.getVolume() <= 0) {
+        engine.setVolume(lastAudibleVolumeRef.current);
+      }
+    } catch (error) {
+      handleAudioFailure(error);
+    }
+  }, [engine, handleAudioFailure]);
 
   const clearAudition = useCallback(() => {
     engine.stopAudition();
@@ -614,10 +641,17 @@ export function WorldScalesExperience() {
     }
   };
 
-  const toggleMute = () => {
-    const nextMuted = !muted;
-    setMuted(nextMuted);
-    engine.setVolume(nextMuted ? 0 : 0.72);
+  const toggleMute = async () => {
+    if (!muted) {
+      const currentVolume = engine.getVolume();
+      if (currentVolume > 0) {
+        lastAudibleVolumeRef.current = currentVolume;
+      }
+      engine.setVolume(0);
+      return;
+    }
+
+    await restoreAudio();
   };
 
   const tutorialScale = {
@@ -632,6 +666,10 @@ export function WorldScalesExperience() {
         ? copy.results.original
         : `${destination.scaleName[locale]} · ${copy.results.automaticRemapping}`
       : track.title[locale];
+  const mutedStatusMessage =
+    locale === "zh"
+      ? "当前已静音 · 点击开启声音"
+      : "Sound is muted · Turn sound on";
 
   return (
     <div
@@ -665,13 +703,14 @@ export function WorldScalesExperience() {
             {reducedMotion ? copy.settings.reducedMotion : copy.settings.standardMotion}
           </button>
           <button
-            className="icon-button"
+            className={`icon-button${muted ? " is-muted" : ""}`}
             type="button"
-            onClick={toggleMute}
+            onClick={() => void toggleMute()}
             aria-label={muted ? copy.transport.soundOn : copy.transport.mute}
             aria-pressed={muted}
+            title={muted ? copy.transport.soundOn : copy.transport.mute}
           >
-            {muted ? "×♪" : "♪"}
+            <span aria-hidden="true">{muted ? "🔇" : "🔊"}</span>
           </button>
           <button
             ref={aboutButtonRef}
@@ -684,6 +723,25 @@ export function WorldScalesExperience() {
           </button>
         </div>
       </header>
+
+      {audioError ? (
+        <div className="audio-status-banner is-error" role="alert">
+          <span>{copy.transport.unsupportedAudio}</span>
+          <button type="button" onClick={() => void restoreAudio()}>
+            {locale === "zh" ? "重新尝试" : "Try again"}
+          </button>
+        </div>
+      ) : muted ? (
+        <button
+          className="audio-status-banner is-muted"
+          type="button"
+          onClick={() => void toggleMute()}
+          aria-label={mutedStatusMessage}
+        >
+          <span aria-hidden="true">🔇</span>
+          <span>{mutedStatusMessage}</span>
+        </button>
+      ) : null}
 
       <main className="main-shell">
         <AtlasMap activeIndex={activeIndex} />
@@ -704,10 +762,7 @@ export function WorldScalesExperience() {
               <button className="primary-button" type="button" onClick={startExperience}>
                 {copy.landing.primaryCta} &nbsp; ↗
               </button>
-              <span className="sound-note">♪ {copy.landing.soundRecommended}</span>
-              {audioError ? (
-                <p className="record-status is-error">{copy.transport.unsupportedAudio}</p>
-              ) : null}
+              <span className="sound-note">🔊 {copy.landing.soundRecommended}</span>
             </div>
           </section>
         ) : null}
@@ -1122,7 +1177,8 @@ export function WorldScalesExperience() {
         </footer>
       )}
 
-      {audioSnapshot.pauseReason === "visibility" ? (
+      {audioSnapshot.pauseReason === "visibility" ||
+      audioSnapshot.pauseReason === "context" ? (
         <div className="tutorial-card" role="alert">
           <p>{copy.transport.resumeAfterBackground}</p>
           <button className="primary-button" type="button" onClick={() => void togglePlayback()}>

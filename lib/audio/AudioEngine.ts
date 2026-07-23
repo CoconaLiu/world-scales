@@ -88,7 +88,15 @@ export class AudioEngine {
       return;
     }
 
-    this.updateSnapshot({ contextState: this.context.state }, true);
+    const contextState = this.context.state as AudioEngineSnapshot["contextState"];
+    this.updateSnapshot({ contextState }, true);
+
+    if (
+      contextState !== "running" &&
+      this.snapshot.playbackState === "playing"
+    ) {
+      this.pause("context");
+    }
   };
 
   private snapshot: AudioEngineSnapshot;
@@ -538,10 +546,28 @@ export class AudioEngine {
 
   private async resumeContext(): Promise<void> {
     const context = this.requireContext();
-    if (context.state === "suspended") {
+    const state = context.state as AudioEngineSnapshot["contextState"];
+
+    if (state === "closed") {
+      throw new AudioEngineError(
+        "initialization-failed",
+        "The audio output is closed and cannot be resumed.",
+      );
+    }
+
+    if (state !== "running") {
       await context.resume();
     }
-    this.updateSnapshot({ contextState: context.state }, true);
+
+    const resumedState = context.state as AudioEngineSnapshot["contextState"];
+    this.updateSnapshot({ contextState: resumedState }, true);
+
+    if (resumedState !== "running") {
+      throw new AudioEngineError(
+        "initialization-failed",
+        "Audio output is not currently available.",
+      );
+    }
   }
 
   private scheduleSession(session: PlaybackSession): void {

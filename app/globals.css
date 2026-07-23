@@ -188,6 +188,16 @@ button:disabled {
   font-size: 12px;
 }
 
+.icon-button.is-muted {
+  border-color: rgba(232, 92, 62, .72);
+  background: rgba(232, 92, 62, .15);
+  color: #ffd9cf;
+}
+
+.icon-button span {
+  line-height: 1;
+}
+
 .text-button {
   padding: 0 14px;
   border-radius: 999px;
@@ -414,6 +424,55 @@ button:disabled {
   font-size: 10px;
   letter-spacing: .12em;
   text-transform: uppercase;
+}
+
+.audio-status-banner {
+  position: absolute;
+  top: 84px;
+  left: 50%;
+  z-index: 45;
+  display: flex;
+  min-height: 44px;
+  max-width: calc(100% - 32px);
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px 16px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(var(--theme-rgb), .55);
+  border-radius: 999px;
+  background: rgba(10, 14, 17, .94);
+  box-shadow: 0 14px 46px rgba(0, 0, 0, .38);
+  color: var(--ink);
+  font-size: 12px;
+  white-space: nowrap;
+  backdrop-filter: blur(18px);
+}
+
+button.audio-status-banner {
+  cursor: pointer;
+}
+
+button.audio-status-banner:hover {
+  border-color: var(--theme);
+  background: rgba(var(--theme-rgb), .14);
+}
+
+.audio-status-banner.is-error {
+  border-color: rgba(232, 92, 62, .62);
+  border-radius: 14px;
+  white-space: normal;
+}
+
+.audio-status-banner.is-error button {
+  min-height: 36px;
+  flex: none;
+  padding: 0 12px;
+  border: 1px solid rgba(232, 92, 62, .55);
+  border-radius: 999px;
+  background: rgba(232, 92, 62, .12);
+  color: #ffd9cf;
+  cursor: pointer;
 }
 
 .circle-wrap {
@@ -826,6 +885,7 @@ button:disabled {
   .piano { height: 190px; }
   .piano-key.white { height: 188px; }
   .piano-key.black { height: 118px; }
+  .audio-status-banner { top: 122px; }
 }
 
 @media (max-width: 480px) {

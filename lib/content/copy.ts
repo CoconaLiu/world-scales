@@ -40,7 +40,7 @@ export const COPY_BY_LOCALE = {
       loading: "正在准备声音…",
       soundOn: "开启声音",
       mute: "静音",
-      unsupportedAudio: "此浏览器无法启动网页音频，请尝试更新浏览器或更换设备。",
+      unsupportedAudio: "声音暂时无法启动。请确认设备未静音，或点击重新尝试。",
       resumeAfterBackground: "播放已暂停。准备好后继续聆听。",
     },
     keyboard: {
@@ -135,7 +135,7 @@ export const COPY_BY_LOCALE = {
       loading: "Preparing sound…",
       soundOn: "Turn sound on",
       mute: "Mute",
-      unsupportedAudio: "This browser could not start web audio. Try updating it or using another device.",
+      unsupportedAudio: "Sound could not start. Check that your device is not muted, or try again.",
       resumeAfterBackground: "Playback is paused. Resume when you are ready to listen.",
     },
     keyboard: {
