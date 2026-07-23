@@ -25,6 +25,11 @@ export {
 } from "./destinations";
 
 export {
+  MELODIES_BY_ASSET_ID,
+  getMelodyByAssetId,
+} from "./melody-registry";
+
+export {
   DESTINATION_IDS,
   MUSIC_ASSET_IDS,
   SCALE_IDS,

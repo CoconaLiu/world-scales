@@ -7,6 +7,7 @@ import {
   LOCAL_MELODIES,
   SCALES,
   SCALES_BY_ID,
+  createSequentialMelody,
   detectTonic,
   modulo12,
   nearestScaleDegrees,
@@ -87,6 +88,33 @@ describe("scale and placeholder data", () => {
         : 0;
       assert.ok((durationBeats * 60) / example.bpm >= 15, example.id);
     }
+  });
+
+  it("adds breathing room while keeping accents aligned to the bar", () => {
+    const example = createSequentialMelody({
+      id: "articulation",
+      bpm: 100,
+      scaleId: "gong",
+      steps: [60, 62, 64, 67, 69].map((midi) => ({
+        midi,
+        durationBeats: 1,
+      })),
+    });
+
+    assert.deepEqual(
+      example.events.map(({ startBeats, durationBeats, velocity }) => [
+        startBeats,
+        durationBeats,
+        velocity,
+      ]),
+      [
+        [0, 0.86, 0.84],
+        [1, 0.86, 0.68],
+        [2, 0.86, 0.76],
+        [3, 0.86, 0.68],
+        [4, 1, 0.84],
+      ],
+    );
   });
 });
 

@@ -13,16 +13,27 @@ import {
 } from "./types";
 
 const DEFAULT_VOLUME = 0.72;
-const DEFAULT_ATTACK_SECONDS = 0.008;
-const DEFAULT_RELEASE_SECONDS = 0.028;
+const DEFAULT_ATTACK_SECONDS = 0.006;
+const DEFAULT_RELEASE_SECONDS = 0.12;
 const DEFAULT_SCHEDULE_AHEAD_SECONDS = 0.04;
 const DEFAULT_AUDITION_SECONDS = 0.48;
 const DEFAULT_VELOCITY = 0.78;
-const VOICE_PEAK_GAIN = 0.2;
+const VOICE_PEAK_GAIN = 0.24;
+const VOICE_DECAY_SECONDS = 0.1;
+const VOICE_SUSTAIN_LEVEL = 0.48;
+const FILTER_DECAY_SECONDS = 0.16;
+const FILTER_Q = 0.65;
+const FILTER_ATTACK_MIN_HZ = 3_200;
+const FILTER_ATTACK_RANGE_HZ = 2_600;
+const FILTER_SUSTAIN_MIN_HZ = 1_500;
+const FILTER_SUSTAIN_RANGE_HZ = 700;
 const SOURCE_STOP_PADDING_SECONDS = 0.012;
+const TRANSPORT_FADE_SECONDS = 0.025;
+const WARM_TIMBRE_HARMONICS = [0, 1, 0.32, 0.12, 0.055, 0.025, 0.012];
 
 interface ScheduledVoice {
   oscillator: OscillatorNode;
+  filter: BiquadFilterNode;
   gain: GainNode;
   stopped: boolean;
 }
@@ -69,8 +80,10 @@ export class AudioEngine {
   > &
     Pick<AudioEngineOptions, "contextFactory">;
 
+  private readonly useWarmTimbre: boolean;
   private context: AudioContext | null = null;
   private masterGain: GainNode | null = null;
+  private warmPeriodicWave: PeriodicWave | null = null;
   private session: PlaybackSession | null = null;
   private readonly auditions = new Set<ScheduledVoice>();
   private readonly listeners = new Set<AudioEngineListener>();
@@ -103,9 +116,10 @@ export class AudioEngine {
 
   constructor(options: AudioEngineOptions = {}) {
     const volume = clampUnitInterval(options.volume ?? DEFAULT_VOLUME);
+    this.useWarmTimbre = options.waveform === undefined;
 
     this.options = {
-      waveform: options.waveform ?? "triangle",
+      waveform: options.waveform ?? "sine",
       attackSeconds: nonNegativeOrDefault(
         options.attackSeconds,
         DEFAULT_ATTACK_SECONDS,
@@ -527,6 +541,7 @@ export class AudioEngine {
 
     this.context = null;
     this.masterGain = null;
+    this.warmPeriodicWave = null;
     this.listeners.clear();
     this.activeNoteListeners.clear();
     this.snapshot = {
@@ -610,21 +625,59 @@ export class AudioEngine {
     const context = this.requireContext();
     const masterGain = this.requireMasterGain();
     const oscillator = context.createOscillator();
+    const filter = context.createBiquadFilter();
     const gain = context.createGain();
     const duration = Math.max(0.001, endsAt - startsAt);
-    const attack = Math.min(this.options.attackSeconds, duration * 0.45);
-    const release = Math.min(this.options.releaseSeconds, duration * 0.45);
-    const peak = clampUnitInterval(velocity) * VOICE_PEAK_GAIN;
-    const voice: ScheduledVoice = { oscillator, gain, stopped: false };
+    const attack = Math.min(this.options.attackSeconds, duration * 0.35);
+    const decay = Math.min(
+      VOICE_DECAY_SECONDS,
+      Math.max(0, duration - attack),
+    );
+    const release = this.options.releaseSeconds;
+    const normalizedVelocity = clampUnitInterval(velocity);
+    const peak = normalizedVelocity * VOICE_PEAK_GAIN;
+    const sustain = peak * VOICE_SUSTAIN_LEVEL;
+    const attackEndsAt = startsAt + attack;
+    const decayEndsAt = attackEndsAt + decay;
+    const releaseEndsAt = endsAt + release;
+    const filterDecayEndsAt =
+      startsAt + Math.min(FILTER_DECAY_SECONDS, duration);
+    const voice: ScheduledVoice = {
+      oscillator,
+      filter,
+      gain,
+      stopped: false,
+    };
 
-    oscillator.type = this.options.waveform;
+    if (this.useWarmTimbre) {
+      oscillator.setPeriodicWave(this.getWarmPeriodicWave());
+    } else {
+      oscillator.type = this.options.waveform;
+    }
     oscillator.frequency.setValueAtTime(midiToFrequency(midi), startsAt);
-    gain.gain.setValueAtTime(0, startsAt);
-    gain.gain.linearRampToValueAtTime(peak, startsAt + attack);
-    gain.gain.setValueAtTime(peak, Math.max(startsAt + attack, endsAt - release));
-    gain.gain.linearRampToValueAtTime(0, endsAt);
 
-    oscillator.connect(gain);
+    filter.type = "lowpass";
+    filter.Q.setValueAtTime(FILTER_Q, startsAt);
+    filter.frequency.setValueAtTime(
+      FILTER_ATTACK_MIN_HZ + normalizedVelocity * FILTER_ATTACK_RANGE_HZ,
+      startsAt,
+    );
+    filter.frequency.exponentialRampToValueAtTime(
+      FILTER_SUSTAIN_MIN_HZ + normalizedVelocity * FILTER_SUSTAIN_RANGE_HZ,
+      filterDecayEndsAt,
+    );
+
+    // Keep a voice silent if it is cancelled during the short schedule-ahead
+    // window, before its own envelope has begun.
+    gain.gain.setValueAtTime(0, context.currentTime);
+    gain.gain.setValueAtTime(0, startsAt);
+    gain.gain.linearRampToValueAtTime(peak, attackEndsAt);
+    gain.gain.linearRampToValueAtTime(sustain, decayEndsAt);
+    gain.gain.setValueAtTime(sustain, endsAt);
+    gain.gain.linearRampToValueAtTime(0, releaseEndsAt);
+
+    oscillator.connect(filter);
+    filter.connect(gain);
     gain.connect(masterGain);
     oscillator.addEventListener(
       "ended",
@@ -632,14 +685,27 @@ export class AudioEngine {
         voice.stopped = true;
         owner.delete(voice);
         oscillator.disconnect();
+        filter.disconnect();
         gain.disconnect();
       },
       { once: true },
     );
     oscillator.start(startsAt);
-    oscillator.stop(endsAt + SOURCE_STOP_PADDING_SECONDS);
+    oscillator.stop(releaseEndsAt + SOURCE_STOP_PADDING_SECONDS);
 
     return voice;
+  }
+
+  private getWarmPeriodicWave(): PeriodicWave {
+    if (this.warmPeriodicWave) {
+      return this.warmPeriodicWave;
+    }
+
+    const context = this.requireContext();
+    const real = new Float32Array(WARM_TIMBRE_HARMONICS.length);
+    const imaginary = Float32Array.from(WARM_TIMBRE_HARMONICS);
+    this.warmPeriodicWave = context.createPeriodicWave(real, imaginary);
+    return this.warmPeriodicWave;
   }
 
   private fadeAndStopVoice(voice: ScheduledVoice, now: number): void {
@@ -653,10 +719,10 @@ export class AudioEngine {
       holdAudioParam(voice.gain.gain, now);
       voice.gain.gain.linearRampToValueAtTime(
         0,
-        now + this.options.releaseSeconds,
+        now + TRANSPORT_FADE_SECONDS,
       );
       voice.oscillator.stop(
-        now + this.options.releaseSeconds + SOURCE_STOP_PADDING_SECONDS,
+        now + TRANSPORT_FADE_SECONDS + SOURCE_STOP_PADDING_SECONDS,
       );
     } catch {
       // A naturally ended oscillator can race a pause/stop call. It is safe to

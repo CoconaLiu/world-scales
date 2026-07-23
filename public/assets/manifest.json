@@ -1,33 +1,33 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-07-22",
+  "updatedAt": "2026-07-23",
   "policy": {
     "placeholderRule": "Until score, arrangement, musicological, and rights review are complete, development music remains synthesized placeholder material and must not be presented as production-approved.",
     "rightsRule": "Composition, new arrangement, and sound-recording rights are tracked independently for every intended launch territory."
   },
   "assets": [
     {
-      "id": "local-hijaz-el-helwa-di",
+      "id": "local-hijaz-scale-study",
       "kind": "midi",
       "role": "local-example",
       "destinationId": "egypt",
       "scaleId": "hijaz",
-      "title": { "en": "El Helwa Di", "zh": "《El Helwa Di》", "local": "الحلوة دي" },
+      "title": { "en": "Hijaz scale study (placeholder)", "zh": "原创希贾兹音阶练习（占位）", "local": "Hijaz scale study" },
       "assetStatus": "placeholder",
       "approvalStatus": "pending",
       "file": null,
       "source": {
-        "composition": "El Helwa Di — exact score/version to be selected",
-        "selectionBasis": "PRD 1.0 preferred repertoire; local familiarity, score, mode analysis, and territorial public-domain status require review.",
+        "composition": "Original synthesized Hijaz scale study created for this prototype",
+        "selectionBasis": "Honest development placeholder. El Helwa Di remains only a PRD candidate pending score, mode, musicology, and rights review.",
         "referenceUrl": null
       },
       "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
       "license": {
-        "composition": { "status": "pending", "license": "To be confirmed by territory", "territories": [], "evidence": null },
+        "composition": { "status": "not-applicable", "license": "Original project placeholder; not production repertoire", "territories": [], "evidence": null },
         "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
         "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
       },
-      "notes": "Do not copy a modern performance or distinctive arrangement. Replace the development sketch only after musicology and rights approval."
+      "notes": "This data is not El Helwa Di and must never be labeled as that song. Replace it only after musicology and rights approval."
     },
     {
       "id": "comparison-hijaz-ode-to-joy",
@@ -53,27 +53,27 @@
       "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
     },
     {
-      "id": "local-dorian-drunken-sailor",
+      "id": "local-dorian-scale-study",
       "kind": "midi",
       "role": "local-example",
       "destinationId": "north-atlantic",
       "scaleId": "dorian",
-      "title": { "en": "What Shall We Do with the Drunken Sailor?", "zh": "《醉酒的水手怎么办？》", "local": "What Shall We Do with the Drunken Sailor?" },
+      "title": { "en": "Dorian scale study (placeholder)", "zh": "原创多利亚音阶练习（占位）", "local": "Dorian scale study" },
       "assetStatus": "placeholder",
       "approvalStatus": "pending",
       "file": null,
       "source": {
-        "composition": "Traditional — What Shall We Do with the Drunken Sailor?; exact source version to be selected",
-        "selectionBasis": "PRD 1.0 preferred Dorian example; source score and territorial status require review.",
+        "composition": "Original synthesized Dorian scale study created for this prototype",
+        "selectionBasis": "Honest development placeholder. Drunken Sailor remains only a PRD candidate pending source-score and territorial review.",
         "referenceUrl": null
       },
       "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
       "license": {
-        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "composition": { "status": "not-applicable", "license": "Original project placeholder; not production repertoire", "territories": [], "evidence": null },
         "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
         "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
       },
-      "notes": "North Atlantic is a broad navigation label; do not claim this tune or scale represents the entire region."
+      "notes": "This data is not Drunken Sailor. North Atlantic is a broad navigation label; do not claim this scale study represents the entire region."
     },
     {
       "id": "comparison-dorian-ode-to-joy",
@@ -99,27 +99,27 @@
       "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
     },
     {
-      "id": "local-gong-molihua",
+      "id": "local-gong-scale-study",
       "kind": "midi",
       "role": "local-example",
       "destinationId": "china",
       "scaleId": "gong",
-      "title": { "en": "Molihua (Jasmine Flower)", "zh": "《茉莉花》", "local": "茉莉花" },
+      "title": { "en": "Gong-mode scale study (placeholder)", "zh": "原创宫调式音阶练习（占位）", "local": "原创宫调式音阶练习" },
       "assetStatus": "placeholder",
       "approvalStatus": "pending",
       "file": null,
       "source": {
-        "composition": "Traditional — Molihua; regional/notated version not yet selected",
-        "selectionBasis": "PRD 1.0 preferred Gong-mode example; tonic, version, score, and analysis require review.",
+        "composition": "Original synthesized Gong-mode scale study created for this prototype",
+        "selectionBasis": "Honest development placeholder. Molihua remains only a PRD candidate pending regional version, score, analysis, and rights review.",
         "referenceUrl": null
       },
       "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
       "license": {
-        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "composition": { "status": "not-applicable", "license": "Original project placeholder; not production repertoire", "territories": [], "evidence": null },
         "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
         "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
       },
-      "notes": "Use only a clearly identified regional/versioned melody. Do not silently treat all Molihua variants as equivalent."
+      "notes": "This data is not Molihua. Use only a clearly identified regional/versioned melody when replacing it."
     },
     {
       "id": "comparison-gong-ode-to-joy",
@@ -145,27 +145,27 @@
       "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
     },
     {
-      "id": "local-miyako-bushi-sakura",
+      "id": "local-miyako-bushi-scale-study",
       "kind": "midi",
       "role": "local-example",
       "destinationId": "japan",
       "scaleId": "miyakobushi",
-      "title": { "en": "Sakura Sakura", "zh": "《樱花》", "local": "さくらさくら" },
+      "title": { "en": "Miyako-bushi scale study (placeholder)", "zh": "原创都节音阶练习（占位）", "local": "都節音階の練習" },
       "assetStatus": "placeholder",
       "approvalStatus": "pending",
       "file": null,
       "source": {
-        "composition": "Traditional — Sakura Sakura; exact source version to be selected",
-        "selectionBasis": "PRD 1.0 preferred Miyako-bushi example; source score, analysis, and territorial status require review.",
+        "composition": "Original synthesized Miyako-bushi scale study created for this prototype",
+        "selectionBasis": "Honest development placeholder. Sakura Sakura remains only a PRD candidate pending score, analysis, and territorial review.",
         "referenceUrl": null
       },
       "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
       "license": {
-        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "composition": { "status": "not-applicable", "license": "Original project placeholder; not production repertoire", "territories": [], "evidence": null },
         "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
         "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
       },
-      "notes": "Review scale naming and the exact melodic version with an authoritative source before release."
+      "notes": "This data is not Sakura Sakura. Review scale naming and the exact melodic version with an authoritative source before replacement."
     },
     {
       "id": "comparison-miyako-bushi-ode-to-joy",
@@ -191,27 +191,27 @@
       "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
     },
     {
-      "id": "local-degung-selection-pending",
+      "id": "local-degung-scale-study",
       "kind": "midi",
       "role": "local-example",
       "destinationId": "sunda",
       "scaleId": "degung",
-      "title": { "en": "Degung melody (selection pending)", "zh": "Degung 旋律（曲目待定）", "local": "Melodi Degung (pilihan belum ditetapkan)" },
+      "title": { "en": "Degung approximation study (placeholder)", "zh": "原创 Degung 近似音阶练习（占位）", "local": "Studi aproksimasi Degung" },
       "assetStatus": "placeholder",
       "approvalStatus": "pending",
       "file": null,
       "source": {
-        "composition": "Unresolved — Sabilulungan or a consultant-selected traditional Degung melody",
-        "selectionBasis": "PRD 1.0 explicitly leaves the final melody unresolved; Sundanese music consultation is required.",
+        "composition": "Original synthesized 12-TET approximation study created for this prototype",
+        "selectionBasis": "Honest development placeholder. The PRD leaves final repertoire unresolved and requires Sundanese music consultation.",
         "referenceUrl": null
       },
       "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
       "license": {
-        "composition": { "status": "pending", "license": "Selection and territorial rights determination pending", "territories": [], "evidence": null },
+        "composition": { "status": "not-applicable", "license": "Original project placeholder; not production repertoire", "territories": [], "evidence": null },
         "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
         "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
       },
-      "notes": "Do not ship or label this as authentic Degung repertoire until a qualified consultant approves the melody, tuning explanation, arrangement, and source."
+      "notes": "This is not authentic Degung repertoire or tuning. Do not relabel it until a qualified consultant approves the melody, tuning explanation, arrangement, and source."
     },
     {
       "id": "comparison-degung-ode-to-joy",
