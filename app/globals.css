@@ -206,6 +206,46 @@ button:disabled {
   font-size: 12px;
 }
 
+.motion-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.motion-control.is-on {
+  border-color: rgba(var(--theme-rgb), .48);
+  background: rgba(var(--theme-rgb), .08);
+  color: var(--ink);
+}
+
+.motion-status-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: .65;
+}
+
+.motion-control.is-on .motion-status-dot {
+  border-color: var(--theme);
+  background: var(--theme);
+  box-shadow: 0 0 8px rgba(var(--theme-rgb), .7);
+  opacity: 1;
+}
+
+.motion-state {
+  color: var(--theme-text);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.motion-control.is-off .motion-state {
+  color: var(--muted);
+}
+
 .main-shell {
   position: relative;
   z-index: 2;
@@ -974,7 +1014,9 @@ button.audio-status-banner:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  .experience:not(.force-motion) *,
+  .experience:not(.force-motion) *::before,
+  .experience:not(.force-motion) *::after {
     scroll-behavior: auto !important;
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;

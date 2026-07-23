@@ -77,9 +77,9 @@ export const COPY_BY_LOCALE = {
     settings: {
       language: "语言",
       sound: "声音",
-      motion: "动态效果",
-      standardMotion: "标准动态",
-      reducedMotion: "减少动态",
+      motion: "动效",
+      motionOn: "开",
+      motionOff: "关",
       about: "关于与方法",
     },
     notices: {
@@ -173,8 +173,8 @@ export const COPY_BY_LOCALE = {
       language: "Language",
       sound: "Sound",
       motion: "Motion",
-      standardMotion: "Standard motion",
-      reducedMotion: "Reduced motion",
+      motionOn: "On",
+      motionOff: "Off",
       about: "About and method",
     },
     notices: {
