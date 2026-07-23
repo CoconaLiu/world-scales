@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": "2026-07-22",
+  "policy": {
+    "placeholderRule": "Until score, arrangement, musicological, and rights review are complete, development music remains synthesized placeholder material and must not be presented as production-approved.",
+    "rightsRule": "Composition, new arrangement, and sound-recording rights are tracked independently for every intended launch territory."
+  },
+  "assets": [
+    {
+      "id": "local-hijaz-el-helwa-di",
+      "kind": "midi",
+      "role": "local-example",
+      "destinationId": "egypt",
+      "scaleId": "hijaz",
+      "title": { "en": "El Helwa Di", "zh": "《El Helwa Di》", "local": "الحلوة دي" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "El Helwa Di — exact score/version to be selected",
+        "selectionBasis": "PRD 1.0 preferred repertoire; local familiarity, score, mode analysis, and territorial public-domain status require review.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "To be confirmed by territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Do not copy a modern performance or distinctive arrangement. Replace the development sketch only after musicology and rights approval."
+    },
+    {
+      "id": "comparison-hijaz-ode-to-joy",
+      "kind": "midi",
+      "role": "comparison",
+      "destinationId": "egypt",
+      "scaleId": "hijaz",
+      "title": { "en": "Ode to Joy · Hijaz", "zh": "《欢乐颂》· 希贾兹", "local": "Ode to Joy · Hijaz" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Ludwig van Beethoven — Ode to Joy motif; exact excerpt to be documented",
+        "selectionBasis": "PRD 1.0 common comparison melody; requires a separately curated and reviewed Hijaz version.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
+    },
+    {
+      "id": "local-dorian-drunken-sailor",
+      "kind": "midi",
+      "role": "local-example",
+      "destinationId": "north-atlantic",
+      "scaleId": "dorian",
+      "title": { "en": "What Shall We Do with the Drunken Sailor?", "zh": "《醉酒的水手怎么办？》", "local": "What Shall We Do with the Drunken Sailor?" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Traditional — What Shall We Do with the Drunken Sailor?; exact source version to be selected",
+        "selectionBasis": "PRD 1.0 preferred Dorian example; source score and territorial status require review.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "North Atlantic is a broad navigation label; do not claim this tune or scale represents the entire region."
+    },
+    {
+      "id": "comparison-dorian-ode-to-joy",
+      "kind": "midi",
+      "role": "comparison",
+      "destinationId": "north-atlantic",
+      "scaleId": "dorian",
+      "title": { "en": "Ode to Joy · Dorian", "zh": "《欢乐颂》· 多利亚", "local": "Ode to Joy · Dorian" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Ludwig van Beethoven — Ode to Joy motif; exact excerpt to be documented",
+        "selectionBasis": "PRD 1.0 common comparison melody; requires a separately curated and reviewed Dorian version.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
+    },
+    {
+      "id": "local-gong-molihua",
+      "kind": "midi",
+      "role": "local-example",
+      "destinationId": "china",
+      "scaleId": "gong",
+      "title": { "en": "Molihua (Jasmine Flower)", "zh": "《茉莉花》", "local": "茉莉花" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Traditional — Molihua; regional/notated version not yet selected",
+        "selectionBasis": "PRD 1.0 preferred Gong-mode example; tonic, version, score, and analysis require review.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Use only a clearly identified regional/versioned melody. Do not silently treat all Molihua variants as equivalent."
+    },
+    {
+      "id": "comparison-gong-ode-to-joy",
+      "kind": "midi",
+      "role": "comparison",
+      "destinationId": "china",
+      "scaleId": "gong",
+      "title": { "en": "Ode to Joy · Gong", "zh": "《欢乐颂》· 宫调式", "local": "欢乐颂 · 宫调式" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Ludwig van Beethoven — Ode to Joy motif; exact excerpt to be documented",
+        "selectionBasis": "PRD 1.0 common comparison melody; requires a separately curated and reviewed Gong-mode version.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
+    },
+    {
+      "id": "local-miyako-bushi-sakura",
+      "kind": "midi",
+      "role": "local-example",
+      "destinationId": "japan",
+      "scaleId": "miyakobushi",
+      "title": { "en": "Sakura Sakura", "zh": "《樱花》", "local": "さくらさくら" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Traditional — Sakura Sakura; exact source version to be selected",
+        "selectionBasis": "PRD 1.0 preferred Miyako-bushi example; source score, analysis, and territorial status require review.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Traditional/public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Review scale naming and the exact melodic version with an authoritative source before release."
+    },
+    {
+      "id": "comparison-miyako-bushi-ode-to-joy",
+      "kind": "midi",
+      "role": "comparison",
+      "destinationId": "japan",
+      "scaleId": "miyakobushi",
+      "title": { "en": "Ode to Joy · Miyako-bushi", "zh": "《欢乐颂》· 都节音阶", "local": "歓喜の歌 · 都節音階" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Ludwig van Beethoven — Ode to Joy motif; exact excerpt to be documented",
+        "selectionBasis": "PRD 1.0 common comparison melody; requires a separately curated and reviewed Miyako-bushi version.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Must be a manually curated comparison arrangement, not a runtime nearest-note conversion."
+    },
+    {
+      "id": "local-degung-selection-pending",
+      "kind": "midi",
+      "role": "local-example",
+      "destinationId": "sunda",
+      "scaleId": "degung",
+      "title": { "en": "Degung melody (selection pending)", "zh": "Degung 旋律（曲目待定）", "local": "Melodi Degung (pilihan belum ditetapkan)" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Unresolved — Sabilulungan or a consultant-selected traditional Degung melody",
+        "selectionBasis": "PRD 1.0 explicitly leaves the final melody unresolved; Sundanese music consultation is required.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Selection and territorial rights determination pending", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Do not ship or label this as authentic Degung repertoire until a qualified consultant approves the melody, tuning explanation, arrangement, and source."
+    },
+    {
+      "id": "comparison-degung-ode-to-joy",
+      "kind": "midi",
+      "role": "comparison",
+      "destinationId": "sunda",
+      "scaleId": "degung",
+      "title": { "en": "Ode to Joy · Degung approximation", "zh": "《欢乐颂》· Degung 近似", "local": "Ode to Joy · Aproksimasi Degung" },
+      "assetStatus": "placeholder",
+      "approvalStatus": "pending",
+      "file": null,
+      "source": {
+        "composition": "Ludwig van Beethoven — Ode to Joy motif; exact excerpt to be documented",
+        "selectionBasis": "PRD 1.0 common comparison melody using a provisional 12-TET engineering approximation; specialist review required.",
+        "referenceUrl": null
+      },
+      "arranger": { "name": "World Scales placeholder programmer", "status": "pending" },
+      "license": {
+        "composition": { "status": "pending", "license": "Public-domain determination pending per launch territory", "territories": [], "evidence": null },
+        "arrangement": { "status": "pending", "license": "New project arrangement; approval pending", "territories": [], "evidence": null },
+        "soundRecording": { "status": "not-applicable", "license": "No third-party recording; synthesized at runtime", "territories": [], "evidence": null }
+      },
+      "notes": "Must remain labeled as an approximation and automatic/cultural authenticity must not be implied."
+    }
+  ]
+}
