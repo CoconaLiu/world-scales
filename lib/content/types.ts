@@ -188,8 +188,8 @@ export interface ProductCopy {
     readonly language: string;
     readonly sound: string;
     readonly motion: string;
-    readonly standardMotion: string;
-    readonly reducedMotion: string;
+    readonly motionOn: string;
+    readonly motionOff: string;
     readonly about: string;
   };
   readonly notices: {

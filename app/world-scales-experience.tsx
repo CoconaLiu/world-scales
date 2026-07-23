@@ -77,7 +77,9 @@ export function WorldScalesExperience() {
   const [tourMode, setTourMode] = useState<TourMode>("local");
   const [tutorialStep, setTutorialStep] = useState(0);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [motionOverride, setMotionOverride] = useState<boolean | null>(null);
+  const [systemPrefersReducedMotion, setSystemPrefersReducedMotion] =
+    useState(false);
   const [audioError, setAudioError] = useState(false);
   const [audioSnapshot, setAudioSnapshot] = useState<AudioEngineSnapshot>(() =>
     engine.getSnapshot(),
@@ -102,6 +104,11 @@ export function WorldScalesExperience() {
   const showsTransport = phase === "tour" || phase === "results";
   const muted = audioSnapshot.volume <= 0;
   const activeMidi = auditionMidi ?? transportMidi;
+  const motionEnabled = motionOverride ?? !systemPrefersReducedMotion;
+  const reducedMotion = !motionEnabled;
+  const motionStateLabel = motionEnabled
+    ? copy.settings.motionOn
+    : copy.settings.motionOff;
 
   const experienceStyle = {
     "--theme": themeColor,
@@ -184,6 +191,19 @@ export function WorldScalesExperience() {
   useEffect(() => {
     document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
   }, [locale]);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => {
+      setSystemPrefersReducedMotion(preference.matches);
+    };
+
+    syncPreference();
+    preference.addEventListener("change", syncPreference);
+    return () => preference.removeEventListener("change", syncPreference);
+  }, []);
 
   const closeAbout = useCallback(() => {
     if (aboutDialogRef.current?.open) aboutDialogRef.current.close();
@@ -672,7 +692,7 @@ export function WorldScalesExperience() {
 
   return (
     <div
-      className={`experience${showsTransport ? " has-transport" : ""}${reducedMotion ? " reduce-motion" : ""}`}
+      className={`experience${showsTransport ? " has-transport" : ""}${reducedMotion ? " reduce-motion" : ""}${motionOverride === true ? " force-motion" : ""}`}
       style={experienceStyle}
     >
       <div className="noise" aria-hidden="true" />
@@ -694,12 +714,16 @@ export function WorldScalesExperience() {
             {locale === "zh" ? "EN" : "中文"}
           </button>
           <button
-            className="text-button motion-control"
+            className={`text-button motion-control ${motionEnabled ? "is-on" : "is-off"}`}
             type="button"
-            onClick={() => setReducedMotion((value) => !value)}
-            aria-pressed={reducedMotion}
+            onClick={() => setMotionOverride(!motionEnabled)}
+            aria-label={copy.settings.motion}
+            aria-pressed={motionEnabled}
+            title={`${copy.settings.motion}${locale === "zh" ? "：" : ": "}${motionStateLabel}`}
           >
-            {reducedMotion ? copy.settings.reducedMotion : copy.settings.standardMotion}
+            <span className="motion-status-dot" aria-hidden="true" />
+            <span>{copy.settings.motion}</span>
+            <span className="motion-state">{motionStateLabel}</span>
           </button>
           <button
             className={`icon-button${muted ? " is-muted" : ""}`}
