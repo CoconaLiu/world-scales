@@ -2,9 +2,12 @@ import type { NoteEvent } from "../music/types";
 
 export type AudioPlaybackState = "idle" | "playing" | "paused" | "ended";
 
-export type AudioPauseReason = "user" | "visibility";
+export type AudioPauseReason = "user" | "visibility" | "context";
 
-export type AudioContextStatus = AudioContextState | "unavailable";
+export type AudioContextStatus =
+  | AudioContextState
+  | "interrupted"
+  | "unavailable";
 
 export interface AudioPlaybackPosition {
   seconds: number;

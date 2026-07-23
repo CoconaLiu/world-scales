@@ -51,4 +51,5 @@ test("GitHub Pages bundle has no OpenAI runtime dependency", async () => {
 
   assert.doesNotMatch(bundle, /chatgpt\.site|api\.openai\.com|auth\.openai\.com/);
   assert.ok(bundle.includes(expectedBasePath));
+  assert.ok(bundle.includes("当前已静音"));
 });
