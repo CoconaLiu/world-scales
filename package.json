@@ -8,9 +8,13 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:pages": "vite build --config vite.pages.config.ts",
+    "preview:pages": "vite preview --config vite.pages.config.ts",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs && tsx --test lib/music/music.test.ts lib/audio/AudioEngine.test.ts lib/content/content.test.ts",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "test": "npm run build && node --test tests/rendered-html.test.mjs && npm run test:unit",
+    "test:unit": "tsx --test lib/music/music.test.ts lib/audio/AudioEngine.test.ts lib/content/content.test.ts",
+    "test:pages": "npm run build:pages && node --test tests/pages-output.test.mjs",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern dist-pages --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
