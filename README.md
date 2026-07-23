@@ -17,10 +17,26 @@ npm run dev
 ```bash
 npm run lint
 npm test
+npm run test:pages
 ```
 
 `npm test` builds the deployable worker, verifies the server-rendered product
 shell and asset approvals, then runs the deterministic music-domain tests.
+
+## GitHub Pages
+
+The public site at <https://coconaliu.github.io/world-scales/> is built as a
+standalone browser application:
+
+```bash
+npm run build:pages
+npm run preview:pages
+```
+
+This produces `dist-pages/` with standard static HTML, CSS, JavaScript, and
+public assets. The GitHub Actions workflow deploys that directory to GitHub
+Pages. The deployed site has no OpenAI, ChatGPT, server, or worker runtime
+dependency.
 
 ## Content status
 
