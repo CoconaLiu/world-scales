@@ -100,6 +100,7 @@ export function WorldScalesExperience() {
   const themeColor = destination.theme.primary;
   const isPlaying = audioSnapshot.playbackState === "playing";
   const isPaused = audioSnapshot.playbackState === "paused";
+  const showsTransport = phase === "tour" || phase === "results";
   const muted = audioSnapshot.volume <= 0;
   const activeMidi = auditionMidi ?? transportMidi;
 
@@ -673,7 +674,7 @@ export function WorldScalesExperience() {
 
   return (
     <div
-      className={`experience${reducedMotion ? " reduce-motion" : ""}`}
+      className={`experience${showsTransport ? " has-transport" : ""}${reducedMotion ? " reduce-motion" : ""}`}
       style={experienceStyle}
     >
       <div className="noise" aria-hidden="true" />
@@ -840,7 +841,7 @@ export function WorldScalesExperience() {
               </div>
             </aside>
 
-            <section className="center-stage">
+            <section className="center-stage tour-stage">
               <nav className="mobile-destinations" aria-label={copy.accessibility.destinationNavigation}>
                 {ORDERED_DESTINATIONS.map((item, index) => (
                   <button
@@ -1120,7 +1121,7 @@ export function WorldScalesExperience() {
         ) : null}
       </main>
 
-      {(phase === "tour" || phase === "results") && (
+      {showsTransport && (
         <footer
           className="transport"
           aria-label={locale === "zh" ? "音频播放控制" : "Audio transport"}
