@@ -1014,6 +1014,9 @@ button.audio-status-banner:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .experience:not(.force-motion),
+  .experience:not(.force-motion)::before,
+  .experience:not(.force-motion)::after,
   .experience:not(.force-motion) *,
   .experience:not(.force-motion) *::before,
   .experience:not(.force-motion) *::after {
@@ -1024,6 +1027,9 @@ button.audio-status-banner:hover {
   }
 }
 
+.experience.reduce-motion,
+.experience.reduce-motion::before,
+.experience.reduce-motion::after,
 .experience.reduce-motion *,
 .experience.reduce-motion *::before,
 .experience.reduce-motion *::after {
